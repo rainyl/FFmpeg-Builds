@@ -34,6 +34,8 @@ cat <<EOF >"$BUILD_SCRIPT"
 
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
     cd ffmpeg
+    sed -i 's/SLIBNAME_WITH_MAJOR=.$(SLIBNAME).$(LIBMAJOR)/SLIBNAME_WITH_MAJOR=$(SLIBNAME)/' ./configure
+    sed -i 's/SLIBNAME_WITH_VERSION=.$(SLIBNAME).$(LIBVERSION)/SLIBNAME_WITH_VERSION=$(SLIBNAME)/' ./configure
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \
         --extra-cflags="\$FF_CFLAGS" --extra-cxxflags="\$FF_CXXFLAGS" --extra-libs="\$FF_LIBS" \

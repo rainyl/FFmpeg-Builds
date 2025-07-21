@@ -18,6 +18,7 @@ fi
 
 rm -rf ffbuild
 mkdir ffbuild
+cp -rf patches ffbuild/patches
 
 FFMPEG_REPO="${FFMPEG_REPO:-https://github.com/FFmpeg/FFmpeg.git}"
 FFMPEG_REPO="${FFMPEG_REPO_OVERRIDE:-$FFMPEG_REPO}"
@@ -33,7 +34,7 @@ cat <<EOF >"$BUILD_SCRIPT"
     rm -rf ffmpeg prefix
 
     git clone --filter=blob:none --branch='$GIT_BRANCH' '$FFMPEG_REPO' ffmpeg
-    git apply -p 0 patches/ffmpeg_7.1_linux_no_suffix_version.patch
+    git apply -p 0 ./patches/ffmpeg_7.1_linux_no_suffix_version.patch
     cd ffmpeg
 
     ./configure --prefix=/ffbuild/prefix --pkg-config-flags="--static" \$FFBUILD_TARGET_FLAGS \$FF_CONFIGURE \

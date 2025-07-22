@@ -1,13 +1,15 @@
---- ffmpeg.old/configure	2025-07-21 17:06:53.295917501 +0800
-+++ ffmpeg/configure	2025-07-21 17:12:45.681560353 +0800
-@@ -4156,8 +4156,8 @@
- SLIBPREF="lib"
- SLIBSUF=".so"
- SLIBNAME='$(SLIBPREF)$(FULLNAME)$(SLIBSUF)'
--SLIBNAME_WITH_VERSION='$(SLIBNAME).$(LIBVERSION)'
--SLIBNAME_WITH_MAJOR='$(SLIBNAME).$(LIBMAJOR)'
-+SLIBNAME_WITH_VERSION='$(SLIBNAME)'
-+SLIBNAME_WITH_MAJOR='$(SLIBNAME)'
- LIB_INSTALL_EXTRA_CMD='$$(RANLIB) "$(LIBDIR)/$(LIBNAME)"'
- SLIB_INSTALL_NAME='$(SLIBNAME_WITH_VERSION)'
- SLIB_INSTALL_LINKS='$(SLIBNAME_WITH_MAJOR) $(SLIBNAME)'
+--- ffmpeg.old/configure	2025-07-22 11:05:50.318431772 +0800
++++ ffmpeg/configure	2025-07-22 10:58:33.299941680 +0800
+@@ -5915,8 +5915,12 @@
+         enable dos_paths
+         ;;
+     linux)
++        disable symver
+         enable section_data_rel_ro
+         enabled_any arm aarch64 && enable_weak linux_perf
++        SLIB_INSTALL_NAME='$(SLIBNAME)'
++        SLIB_INSTALL_LINKS=
++        SHFLAGS='-shared -Wl,-soname,$(SLIBNAME)'
+         ;;
+     irix*)
+         target_os=irix
